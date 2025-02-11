@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Bizim Anılarımız</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Bizim En Güzel Anılarımız 📸</h1>
+
+<div class="gallery">
+  <div th:each="memory : ${memories}" class="memory">
+    <img th:src="${memory.imageUrl}" alt="Memory Photo">
+    <p th:text="${memory.description}"></p>
+  </div>
+</div>
+
+<!-- Pagination Butonları -->
+<div class="pagination">
+  <a th:if="${currentPage > 0}"
+     th:href="@{/gallery(page=${currentPage - 1}, size=3)}">⏪ Önceki</a>
+
+  <span th:text="'Sayfa ' + (${currentPage} + 1) + ' / ' + ${totalPages}"></span>
+
+  <a th:if="${currentPage + 1 < totalPages}"
+     th:href="@{/gallery(page=${currentPage + 1}, size=3)}">Sonraki ⏩</a>
+</div>
+<br>
+<a href="/">Ana Sayfa</a>
+</body>
+</html>
