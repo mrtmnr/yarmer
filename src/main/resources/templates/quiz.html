@@ -16,7 +16,7 @@
       border-radius: 10px;
       display: inline-block;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 0.8s ease-in-out; /* Geçiş efekti */
+      animation: fadeIn 0.8s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -72,7 +72,7 @@
     .option-input:checked + .option-label {
       background-color: #c2185b;
       color: white;
-      transform: scale(1.05); /* Doğru/yanlış seçildiğinde animasyon */
+      transform: scale(1.05);
     }
 
     .submit-button {
@@ -93,7 +93,6 @@
       transform: scale(1.1);
     }
 
-    /* Doğru/Yanlış mesajı */
     #answerResult {
       display: none;
       font-size: 20px;
@@ -121,9 +120,13 @@
 
     <p id="answerResult"></p>
 
-    <button type="submit" class="submit-button">Sıradaki soru</button>
+    <button type="submit" class="submit-button">Sıradaki Soru</button>
   </form>
 </div>
+
+<!-- Doğru ve Yanlış Ses Efektleri -->
+<audio id="correctSound" src="/sounds/correct.mp3"></audio>
+<audio id="wrongSound" src="/sounds/wrong.mp3"></audio>
 
 <script>
   document.querySelectorAll(".option-input").forEach(option => {
@@ -135,9 +138,11 @@
       if (selected === correctIndex) {
         resultDiv.innerHTML = "✅ Doğru!";
         resultDiv.style.color = "green";
+        document.getElementById("correctSound").play(); // Doğru ses efekti
       } else {
         resultDiv.innerHTML = "❌ Yanlış!";
         resultDiv.style.color = "red";
+        document.getElementById("wrongSound").play(); // Yanlış ses efekti
       }
       resultDiv.style.display = "block";
     });
