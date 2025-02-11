@@ -1,12 +1,13 @@
 body {
     background-color: #ffe6e6;
+    background-image: url("/images/heart-background.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     text-align: center;
     font-family: 'Arial', sans-serif;
 }
 
-h1 {
-    color: #d81b60;
-}
 .gallery {
     display: flex;
     flex-wrap: wrap;
@@ -19,6 +20,14 @@ h1 {
     max-width: 300px; /* Maksimum genişlik */
     flex: 1 1 300px; /* Minimum genişlik */
 }
+.memory p {
+    background-color: rgba(0, 0, 0, 0.6); /* Siyah şeffaf arka plan */
+    color: white; /* Beyaz yazı */
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
 
 .memory img {
     width: 100%; /* Fotoğrafı maksimum genişliğe yay */
