@@ -16,6 +16,12 @@
       border-radius: 10px;
       display: inline-block;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-in-out; /* Geçiş efekti */
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
@@ -47,12 +53,12 @@
       color: white;
       border-radius: 8px;
       cursor: pointer;
-      width: 80%; /* Butonlar eşit genişlikte */
-      max-width: 250px; /* Maksimum genişlik */
+      width: 80%;
+      max-width: 250px;
       font-size: 18px;
       text-align: center;
-      transition: 0.3s ease;
-      min-height: 45px; /* Buton yüksekliği sabit */
+      transition: all 0.3s ease;
+      min-height: 45px;
     }
 
     .option-label:hover {
@@ -66,6 +72,7 @@
     .option-input:checked + .option-label {
       background-color: #c2185b;
       color: white;
+      transform: scale(1.05); /* Doğru/yanlış seçildiğinde animasyon */
     }
 
     .submit-button {
@@ -78,10 +85,20 @@
       border-radius: 5px;
       cursor: pointer;
       text-decoration: none;
+      transition: 0.3s ease-in-out;
     }
 
     .submit-button:hover {
       background-color: #c2185b;
+      transform: scale(1.1);
+    }
+
+    /* Doğru/Yanlış mesajı */
+    #answerResult {
+      display: none;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -91,8 +108,9 @@
   <h1> Soru <span th:text="${questionIndex + 1}"></span> / <span th:text="${totalQuestions}"></span></h1>
   <p th:text="${question.questionText}"></p>
 
-  <form action="/quiz/answer" method="post">
+  <form id="quizForm" action="/quiz/answer" method="post">
     <input type="hidden" name="questionIndex" th:value="${questionIndex}">
+    <input type="hidden" id="correctAnswer" th:value="${question.correctIndex}">
 
     <div class="options">
       <div th:each="option, iter : ${question.options}">
@@ -101,9 +119,30 @@
       </div>
     </div>
 
-    <button type="submit" class="submit-button">Cevabı Gönder</button>
+    <p id="answerResult"></p>
+
+    <button type="submit" class="submit-button">Sıradaki soru</button>
   </form>
 </div>
+
+<script>
+  document.querySelectorAll(".option-input").forEach(option => {
+    option.addEventListener("change", function() {
+      let correctIndex = parseInt(document.getElementById("correctAnswer").value);
+      let selected = parseInt(this.value);
+
+      let resultDiv = document.getElementById("answerResult");
+      if (selected === correctIndex) {
+        resultDiv.innerHTML = "✅ Doğru!";
+        resultDiv.style.color = "green";
+      } else {
+        resultDiv.innerHTML = "❌ Yanlış!";
+        resultDiv.style.color = "red";
+      }
+      resultDiv.style.display = "block";
+    });
+  });
+</script>
 
 </body>
 </html>
