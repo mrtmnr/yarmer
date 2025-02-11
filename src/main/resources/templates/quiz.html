@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Beni Ne Kadar Tanıyorsun?</title>
+  <style>
+    body {
+      background-color: #ffe6e6;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .quiz-container {
+      margin-top: 50px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #d81b60;
+      font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      background-color: #ff7eb3;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 80%; /* Butonlar eşit genişlikte */
+      max-width: 250px; /* Maksimum genişlik */
+      font-size: 18px;
+      text-align: center;
+      transition: 0.3s ease;
+      min-height: 45px; /* Buton yüksekliği sabit */
+    }
+
+    .option-label:hover {
+      background-color: #ff5e91;
+    }
+
+    .option-input {
+      display: none;
+    }
+
+    .option-input:checked + .option-label {
+      background-color: #c2185b;
+      color: white;
+    }
+
+    .submit-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .submit-button:hover {
+      background-color: #c2185b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1> Soru <span th:text="${questionIndex + 1}"></span> / <span th:text="${totalQuestions}"></span></h1>
+  <p th:text="${question.questionText}"></p>
+
+  <form action="/quiz/answer" method="post">
+    <input type="hidden" name="questionIndex" th:value="${questionIndex}">
+
+    <div class="options">
+      <div th:each="option, iter : ${question.options}">
+        <input type="radio" th:name="selectedOption" th:value="${iter.index}" th:id="'option' + ${iter.index}" class="option-input" required>
+        <label th:for="'option' + ${iter.index}" class="option-label" th:text="${option}"></label>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-button">Cevabı Gönder</button>
+  </form>
+</div>
+
+</body>
+</html>
